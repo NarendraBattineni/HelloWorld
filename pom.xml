@@ -54,8 +54,80 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Read property file -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
+					<executions>
+						<execution>
+							<phase>initialize</phase>
+								<goals>
+								<goal>read-project-properties</goal>
+								</goals>
+									<configuration>
+									<files>
+									<file>src/main/resources/login.properties</file>
+									</files>
+							</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+	<groupId>org.mule.tools.maven</groupId>
+	<artifactId>mule-maven-plugin</artifactId>
+	<version>${mule.tools.version}</version>
+	<configuration>
+		<deploymentType>cloudhub</deploymentType>
+		<!-- muleVersion is the runtime version as it appears on the CloudHub interface -->
+		<muleVersion>${mule.version}</muleVersion>
+		<username>mule_srivis12</username>
+		<password>Mule123</password>
+		<redeploy>true</redeploy>
+		<environment>ENVIRONMENT</environment>
+		<businessGroup>BUSINESSGROUP</businessGroup>
+		<region>eu-central-1</region>
+		<uri>https://eu1.anypoint.mulesoft.com</uri>
+		<workerType>Micro</workerType>
+		<!-- Size of the worker(s) specified as one of: Micro (0.1 vCores), 
+						Small (0.2 vCores), Medium (1 vCores), Large (2 vCores), xLarge (4 vCores). 
+						Note that the value is case sensitive. -->
+		<properties>
+			<anypoint.platform.analytics_base_uri>https://eu1.analytics-ingest.anypoint.mulesoft.com</anypoint.platform.analytics_base_uri>
+			<anypoint.platform.coreservice_base_uri>https://eu1.anypoint.mulesoft.com/accounts</anypoint.platform.coreservice_base_uri>
+			<anypoint.platform.platform_base_uri>https://eu1.anypoint.mulesoft.com/apiplatform</anypoint.platform.platform_base_uri>
+			<anypoint.platform.contracts_base_uri>https://eu1.aanypoint.mulesoft.com/apigateway/ccs</anypoint.platform.contracts_base_uri>
+			<anypoint.platform.client_id>CLIENTID</anypoint.platform.client_id>
+			<anypoint.platform.client_secret>CLIENTSECRET</anypoint.platform.client_secret>
+			<lc.profile.env>ENVIRONMENT</lc.profile.env>
+			<lc.profile.api.version>APIVERSION</lc.profile.api.version>
+			<lc.anypoint.api.name>APINAME</lc.anypoint.api.name>
+		</properties>
+	</configuration>
+	<executions>
+		<execution>
+			<id>deploy</id>
+			<phase>deploy</phase>
+			<goals>
+				<goal>deploy</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-deploy-plugin</artifactId>
+	<configuration>
+		<skip>true</skip>
+	</configuration>
+</plugin>
 		</plugins>
 	</build>
+
+
+
+
 
 	<!-- Mule Dependencies -->
 	<dependencies>
@@ -133,6 +205,12 @@
     <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-module-spring-config</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    <dependency>
+            <groupId>com.mulesoft.anypoint</groupId>
+            <artifactId>api-gateway-client</artifactId>
             <version>${mule.version}</version>
             <scope>provided</scope>
         </dependency>
